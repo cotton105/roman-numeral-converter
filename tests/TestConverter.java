@@ -1,9 +1,10 @@
 import org.junit.jupiter.api.Test;
+import converter.Converter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestConverter {
-    private final Converter converter = new Converter();
+//    private final Converter converter = new Converter();
     private final int[] conversionTestSetArabic = new int[] {
             3, 3999, 2021, 1984,
             39, 246, 789, 2421,
@@ -24,20 +25,20 @@ public class TestConverter {
     @Test
     void testAccurateRomanToArabicConversion() {
         for (int i=0; i<conversionTestSetRoman.length; i++)
-            assertEquals(conversionTestSetArabic[i], converter.romanToArabic(conversionTestSetRoman[i]));
+            assertEquals(conversionTestSetArabic[i], Converter.romanToArabic(conversionTestSetRoman[i]));
     }
 
     @Test
     void testAccurateArabicToRomanConversion() {
         for (int i=0; i<conversionTestSetArabic.length; i++)
-            assertEquals(conversionTestSetRoman[i], converter.arabicToRoman(conversionTestSetArabic[i]));
+            assertEquals(conversionTestSetRoman[i], Converter.arabicToRoman(conversionTestSetArabic[i]));
     }
 
     @Test
     void testValidRomanNumerals() {
         for (int i=0; i<conversionTestSetRoman.length; i+=2)
-            assertTrue(converter.validNumerals(conversionTestSetRoman[i]));
+            assertTrue(Converter.validNumerals(conversionTestSetRoman[i]));
         for (String numerals : invalidNumeralsTestSet)
-            assertFalse(converter.validNumerals(numerals));
+            assertFalse(Converter.validNumerals(numerals));
     }
 }

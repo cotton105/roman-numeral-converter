@@ -1,4 +1,4 @@
-package utility;
+package converter.utility;
 
 public class RomanUtil {
     public static int indexOf(int[] searchArray, int searchItem) {
@@ -15,7 +15,7 @@ public class RomanUtil {
         return -1;
     }
 
-    private boolean isNumeric(String val) {
+    public static boolean isNumeric(String val) {
         try {
             Integer.parseInt(val);
             return true;
