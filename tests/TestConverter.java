@@ -4,7 +4,6 @@ import converter.Converter;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestConverter {
-//    private final Converter converter = new Converter();
     private final int[] conversionTestSetArabic = new int[] {
             3, 3999, 2021, 1984,
             39, 246, 789, 2421,

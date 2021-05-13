@@ -5,13 +5,10 @@ import converter.utility.RomanUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ConverterWindow extends JFrame {
     private static final int WINDOW_WIDTH = 400, WINDOW_HEIGHT = 300;
-    private JButton btnConvert;
-    private JTextField txtInputField, txtResultField;
+    private final JTextField txtInputField, txtResultField;
 
     public ConverterWindow() {
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -23,7 +20,7 @@ public class ConverterWindow extends JFrame {
         txtInputField = new JHintTextField("Number to convert");
         Icon submitArrowImageIcon = WindowTools.scaleImageIcon(
                 new ImageIcon("assets/icons/submit_arrow.png"), 20, 20);
-        btnConvert = new JButton(submitArrowImageIcon);
+        JButton btnConvert = new JButton(submitArrowImageIcon);
         txtResultField = new JHintTextField("Result appears here");
         txtResultField.setEditable(false);
 

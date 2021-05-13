@@ -17,7 +17,7 @@ class JHintTextField extends JTextField implements FocusListener {
         super(hint);
         this.hint = hint;
         this.showingHint = true;
-        this.setForeground(new Color(0, 0, 0, 89));
+        this.setForeground(new Color(0, 0, 0, 255));
         super.addFocusListener(this);
     }
 
