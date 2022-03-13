@@ -2,13 +2,16 @@ package converter.window;
 
 import converter.Converter;
 import converter.utility.RomanUtil;
+import converter.utility.WindowTools;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class ConverterWindow extends JFrame {
-    private static final int WINDOW_WIDTH = 400, WINDOW_HEIGHT = 300;
-    private final JTextField txtInputField, txtResultField;
+    private static final int WINDOW_WIDTH = 400;
+    private static final int WINDOW_HEIGHT = 300;
+    private final JTextField txtInputField;
+    private final JTextField txtResultField;
 
     public ConverterWindow() {
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -27,9 +30,9 @@ public class ConverterWindow extends JFrame {
         btnConvert.addActionListener(e -> {
             String textFieldContents = txtInputField.getText();
             if (Converter.validNumerals(textFieldContents)) {
-                txtResultField.setText(String.valueOf(Converter.romanToArabic(textFieldContents)));
+                txtResultField.setText(String.valueOf(Converter.romanToInteger(textFieldContents)));
             } else if (RomanUtil.isNumeric(textFieldContents))
-                txtResultField.setText(Converter.arabicToRoman(Integer.parseInt(textFieldContents)));
+                txtResultField.setText(Converter.integerToRoman(Integer.parseInt(textFieldContents)));
         });
 
         panInput.add(txtInputField);

@@ -1,99 +1,60 @@
 package converter;
 
-import converter.utility.RomanUtil;
 import converter.window.ConverterWindow;
 
 import javax.swing.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Converter {
-    private static final int[] numeralValues = new int[] {1000, 500, 100, 50, 10, 5, 1};
-    private static final char[] numeralChars = new char[] {'M', 'D', 'C', 'L', 'X', 'V', 'I'};
+    private static final String[] NUMERAL_CHARS = new String[] {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+    private static final int[] NUMERAL_VALUES = new int[] {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
     JFrame frame;
 
     public Converter() {
         frame = new ConverterWindow();
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
-    public static int romanToArabic(String numerals) {
+    public static int romanToInteger(String numerals) {
         int total = 0;
-        for (int i=numerals.length()-1; i>=0; i--) {
-            int c = numeralMapping(numerals.charAt(i));
-            int prevC = 0;
-            if (i > 0) prevC = numeralMapping(numerals.charAt(i-1));
-            if (prevC >= c || prevC == 0)
-                total += c;
-            else {
-                if (i-2 >= 0) {
-                    int prevPrevC = numeralMapping(numerals.charAt(i-2));
-                    if (prevPrevC < c) {
-                        total += c-prevC-prevPrevC;
-                        i--;
-                    } else total += c-prevC;
-                } else
-                    total += c-prevC;
-                i--;
+        List<String> numeralList = Arrays.asList(NUMERAL_CHARS);
+        while (!numerals.equals("")) {
+            String firstChar = numerals.substring(0, 1);
+            if (numerals.length() > 1) {
+                String first2Chars = numerals.substring(0, 2);
+                if (numeralList.contains(first2Chars)) {
+                    total += NUMERAL_VALUES[numeralList.indexOf(first2Chars)];
+                    numerals = numerals.substring(2);
+                } else {
+                    total += NUMERAL_VALUES[numeralList.indexOf(firstChar)];
+                    numerals = numerals.substring(1);
+                }
+            } else {
+                total += NUMERAL_VALUES[numeralList.indexOf(firstChar)];
+                numerals = numerals.substring(1);
             }
         }
         return total;
     }
 
-    //TODO: Improve conversion of digits with 4/9.
-    public static String arabicToRoman(int number) {
-        StringBuilder numeralBuilder = new StringBuilder();
-        int[] numberDigits = splitIntIntoDigits(number);
-        for (int i=numberDigits.length-1; i>0; i--)
-            numberDigits[numberDigits.length-1-i] *= Math.pow(10, i);
-        for (int i=numberDigits.length-1; i>=0; i--) {
-            int digit = numberDigits[i];
-            if (digit == 4) numeralBuilder.insert(0, "IV");
-            else if (digit == 9) numeralBuilder.insert(0, "IX");
-            else if (digit == 40) numeralBuilder.insert(0, "XL");
-            else if (digit == 90) numeralBuilder.insert(0, "XC");
-            else if (digit == 400) numeralBuilder.insert(0, "CD");
-            else if (digit == 900) numeralBuilder.insert(0, "CM");
-            else {
-                StringBuilder chunk = new StringBuilder();
-                while (digit > 0) {
-                    int largestNumeralFactor = largestNumeralFactor(digit);
-                    chunk.append(numeralMapping(largestNumeralFactor));
-                    digit -= largestNumeralFactor;
+    public static String integerToRoman(int number) {
+        StringBuilder intAsNumerals = new StringBuilder();
+        while (number != 0) {
+            for (int i = 0; i < NUMERAL_VALUES.length; i++) {
+                int val = NUMERAL_VALUES[i];
+                if (number - val >= 0) {
+                    number -= val;
+                    intAsNumerals.append(NUMERAL_CHARS[i]);
+                    break;
                 }
-                numeralBuilder.insert(0, chunk);
             }
         }
-
-        return numeralBuilder.toString();
-    }
-
-    private static int numeralMapping(char numeral) {
-        return numeralValues[RomanUtil.indexOf(numeralChars, numeral)];
-    }
-
-    private static char numeralMapping(int number) {
-        return numeralChars[RomanUtil.indexOf(numeralValues, number)];
-    }
-
-    private static int[] splitIntIntoDigits(int number) {
-        int numberDigitCount = String.valueOf(number).length();
-        int[] digits = new int[numberDigitCount];
-        for (int i=digits.length-1; i>=0; i--) {
-            digits[i] = number % 10;
-            number /= 10;
-        }
-        return digits;
-    }
-
-    private static int largestNumeralFactor(int number) {
-        for (int numeralValue : numeralValues) {
-            if (number / numeralValue > 0)
-                return numeralValue;
-        }
-        return 0;
+        return intAsNumerals.toString();
     }
 
     public static boolean validNumerals(String numerals) {

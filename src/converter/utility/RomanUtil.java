@@ -1,18 +1,9 @@
 package converter.utility;
 
 public class RomanUtil {
-    public static int indexOf(int[] searchArray, int searchItem) {
-        for (int i=0; i<searchArray.length; i++) {
-            if (searchItem == searchArray[i]) return i;
-        }
-        return -1;
-    }
 
-    public static int indexOf(char[] searchArray, char searchItem) {
-        for (int i=0; i<searchArray.length; i++) {
-            if (searchItem == searchArray[i]) return i;
-        }
-        return -1;
+    private RomanUtil() {
+        throw new IllegalStateException("Utility class");
     }
 
     public static boolean isNumeric(String val) {

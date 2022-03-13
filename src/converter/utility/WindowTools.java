@@ -1,9 +1,14 @@
-package converter.window;
+package converter.utility;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class WindowTools {
+
+    private WindowTools() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static ImageIcon scaleImageIcon(ImageIcon icon, double scaleAmount) {
         Image img = icon.getImage();
         int newWidth = (int)(img.getWidth(null) * scaleAmount);
